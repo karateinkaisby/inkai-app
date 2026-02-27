@@ -1,0 +1,42 @@
+---
+description: Konteks proyek inkai-app untuk Cursor dan kolaborasi dengan Claude Code
+alwaysApply: true
+---
+
+# inkai-app – Konteks Proyek
+
+Aplikasi Next.js (dashboard/manajemen) dengan auth dan RBAC. Konteks lengkap juga ada di **CLAUDE.md** di root (dibaca Claude Code); jaga agar Cursor dan Claude konsisten.
+
+## Tech stack
+
+- **Next.js 15** (App Router), React 18, TypeScript
+- **Supabase**: auth, database, RLS; `@supabase/ssr` + `@supabase/auth-helpers-nextjs`
+- **Styling**: Tailwind CSS 4, Radix UI, Framer Motion, lucide-react
+- **State**: Zustand; form/CRUD di modul-modul dashboard
+
+## Struktur utama
+
+- `app/` – App Router: `page.tsx`, `layout.tsx`, `auth/`, `dashboard/`, `api/`
+- `app/auth/` – Login, register, reset-password, reset/update
+- `app/dashboard/` – Layout dashboard, Sidebar (menu RBAC), topbar-premium, modul per fitur
+- `app/dashboard/modules/` – Satu folder per fitur: keanggotaan, siswa, user, absensi, jadwal, penilaian, keuangan, event, settings
+- `app/api/` – Route handlers: auth, users, wilayah (provinces/regencies/districts/villages), ranting, keanggotaan, menu-permissions, profile, reset
+- `app/config/menuConfig.ts` – Definisi menu (key, scope, requiresRead, superadminOnly)
+- `app/lib/` – supabaseBrowser, supabaseAdmin, supabasePermissions, wilayah-data/wilayah-static
+- `components/` – UI bersama (shadcn-style), providers
+- `middleware.ts` – Supabase session; redirect ke login jika belum auth dan akses `/dashboard`
+
+## Konvensi
+
+- **RBAC**: Menu dan akses berdasarkan scope (dashboard, keanggotaan, siswa, user, dll.) dan `canAccess`; beberapa menu `superadminOnly`.
+- **API**: Route di `app/api/.../route.ts` (atau `.js` untuk reset); gunakan Supabase client (server/admin) sesuai kebutuhan.
+- **Wilayah**: Data wilayah (provinsi/kabupaten/kecamatan/desa) dari API atau `app/lib/wilayah-*`; dipakai di form keanggotaan, profil, siswa.
+- **Bahasa**: Kode dan komentar boleh Indonesia atau Inggris; UI Indonesia (e.g. Keanggotaan, Siswa, Pengaturan).
+
+## Perintah
+
+- Dev: `npm run dev` (NEXT_DISABLE_TURBOPACK=1)
+- Build: `npm run build`
+- Lint: `npm run lint`
+
+Saat mengedit fitur, rujuk modul yang relevan di `app/dashboard/modules/<nama>/` dan API terkait di `app/api/`.

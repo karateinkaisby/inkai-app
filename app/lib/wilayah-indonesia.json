@@ -1,0 +1,111 @@
+[
+  {
+    "provinsi": "Jawa Timur",
+    "kabupaten": [
+      {
+        "nama": "Surabaya",
+        "kecamatan": [
+          {
+            "nama": "Asemrowo",
+            "kelurahan": [
+              { "nama": "Asemrowo", "kode_pos": "60182" },
+              { "nama": "Genting Kalianak", "kode_pos": "60183" },
+              { "nama": "Tambak Sarioso", "kode_pos": "60183" }
+            ]
+          },
+          {
+            "nama": "Benowo",
+            "kelurahan": [
+              { "nama": "Benowo", "kode_pos": "60197" },
+              { "nama": "Romokalisari", "kode_pos": "60197" },
+              { "nama": "Sememi", "kode_pos": "60198" },
+              { "nama": "Tambak Osowilangun", "kode_pos": "60198" }
+            ]
+          },
+          {
+            "nama": "Bubutan",
+            "kelurahan": [
+              { "nama": "Alun-Alun Contong", "kode_pos": "60174" },
+              { "nama": "Bubutan", "kode_pos": "60174" },
+              { "nama": "Gundih", "kode_pos": "60172" },
+              { "nama": "Jepara", "kode_pos": "60171" },
+              { "nama": "Tembok Dukuh", "kode_pos": "60173" }
+            ]
+          },
+          {
+            "nama": "Bulak",
+            "kelurahan": [
+              { "nama": "Bulak", "kode_pos": "60124" },
+              { "nama": "Kedung Cowek", "kode_pos": "60128" },
+              { "nama": "Kenjeran", "kode_pos": "60123" },
+              { "nama": "Sukolilo Baru", "kode_pos": "60122" }
+            ]
+          },
+          {
+            "nama": "Dukuh Pakis",
+            "kelurahan": [
+              { "nama": "Dukuh Kupang", "kode_pos": "60225" },
+              { "nama": "Dukuh Pakis", "kode_pos": "60224" },
+              { "nama": "Gunung Sari", "kode_pos": "60222" },
+              { "nama": "Pradah Kali Kendal", "kode_pos": "60226" }
+            ]
+          },
+          {
+            "nama": "Gayungan",
+            "kelurahan": [
+              { "nama": "Dukuh Menanggal", "kode_pos": "60234" },
+              { "nama": "Gayungan", "kode_pos": "60235" },
+              { "nama": "Ketintang", "kode_pos": "60231" }
+            ]
+          },
+          {
+            "nama": "Genteng",
+            "kelurahan": [
+              { "nama": "Embong Kaliasin", "kode_pos": "60271" },
+              { "nama": "Genteng", "kode_pos": "60275" },
+              { "nama": "Kapasari", "kode_pos": "60273" },
+              { "nama": "Ketabang", "kode_pos": "60272" },
+              { "nama": "Peneleh", "kode_pos": "60274" }
+            ]
+          },
+          {
+            "nama": "Gubeng",
+            "kelurahan": [
+              { "nama": "Airlangga", "kode_pos": "60286" },
+              { "nama": "Baratajaya", "kode_pos": "60284" },
+              { "nama": "Gubeng", "kode_pos": "60281" },
+              { "nama": "Kertajaya", "kode_pos": "60282" },
+              { "nama": "Mojo", "kode_pos": "60285" },
+              { "nama": "Pucang Sewu", "kode_pos": "60283" }
+            ]
+          },
+
+          {
+            "nama": "Tambaksari",
+            "kelurahan": [
+              { "nama": "Gading", "kode_pos": "60134" },
+              { "nama": "Kapas Madya Baru", "kode_pos": "60133" },
+              { "nama": "Pacar Keling", "kode_pos": "60131" },
+              { "nama": "Pacar Krajan", "kode_pos": "60132" },
+              { "nama": "Ploso", "kode_pos": "60133" },
+              { "nama": "Rangkah", "kode_pos": "60135" },
+              { "nama": "Tambaksari", "kode_pos": "60136" }
+            ]
+          },
+
+          {
+            "nama": "Wonokromo",
+            "kelurahan": [
+              { "nama": "Darmo", "kode_pos": "60241" },
+              { "nama": "Jagir", "kode_pos": "60244" },
+              { "nama": "Ngagel", "kode_pos": "60245" },
+              { "nama": "Ngagelrejo", "kode_pos": "60246" },
+              { "nama": "Sawunggaling", "kode_pos": "60242" },
+              { "nama": "Wonokromo", "kode_pos": "60243" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

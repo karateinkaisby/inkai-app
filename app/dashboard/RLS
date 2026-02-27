@@ -1,0 +1,972 @@
+SELECT
+  schemaname,
+  tablename,
+  policyname,
+  permissive,
+  roles,
+  cmd,
+  qual,
+  with_check
+FROM pg_policies
+WHERE schemaname = 'public'
+  AND tablename IN (
+    'profiles',
+    'menus',
+    'menu_logs',
+    'functional_roles'
+  )
+ORDER BY tablename, policyname;
+[
+  {
+    "schemaname": "public",
+    "tablename": "menu_logs",
+    "policyname": "menu_logs_select_admin",
+    "permissive": "PERMISSIVE",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "(auth.role() = 'authenticated'::text)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "menu_logs",
+    "policyname": "menu_logs_select_authenticated",
+    "permissive": "PERMISSIVE",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "(auth.role() = 'authenticated'::text)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "menus",
+    "policyname": "menus_delete_admin",
+    "permissive": "PERMISSIVE",
+    "roles": "{public}",
+    "cmd": "DELETE",
+    "qual": "(auth.role() = 'authenticated'::text)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "menus",
+    "policyname": "menus_insert_admin",
+    "permissive": "PERMISSIVE",
+    "roles": "{public}",
+    "cmd": "INSERT",
+    "qual": null,
+    "with_check": "(auth.role() = 'authenticated'::text)"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "menus",
+    "policyname": "menus_select_final",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "((EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.user_id = auth.uid()) AND (p.structural_level = 4)))) OR ((superadmin_only = false) AND (is_active = true)))",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "menus",
+    "policyname": "menus_update_admin",
+    "permissive": "PERMISSIVE",
+    "roles": "{public}",
+    "cmd": "UPDATE",
+    "qual": "(auth.role() = 'authenticated'::text)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "menus",
+    "policyname": "public read menus",
+    "permissive": "PERMISSIVE",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "true",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "menus",
+    "policyname": "superadmin can update menus",
+    "permissive": "PERMISSIVE",
+    "roles": "{public}",
+    "cmd": "UPDATE",
+    "qual": "(EXISTS ( SELECT 1\n   FROM profiles\n  WHERE ((profiles.user_id = auth.uid()) AND (profiles.structural_level = 4))))",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "profiles",
+    "policyname": "debug allow update profiles",
+    "permissive": "PERMISSIVE",
+    "roles": "{public}",
+    "cmd": "UPDATE",
+    "qual": "true",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "profiles",
+    "policyname": "profile_owner_rw",
+    "permissive": "PERMISSIVE",
+    "roles": "{public}",
+    "cmd": "ALL",
+    "qual": "(user_id = auth.uid())",
+    "with_check": "(user_id = auth.uid())"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "profiles",
+    "policyname": "profiles read own",
+    "permissive": "PERMISSIVE",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "profiles",
+    "policyname": "profiles_insert_by_auth_trigger",
+    "permissive": "PERMISSIVE",
+    "roles": "{public}",
+    "cmd": "INSERT",
+    "qual": null,
+    "with_check": "true"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "profiles",
+    "policyname": "profiles_insert_own",
+    "permissive": "PERMISSIVE",
+    "roles": "{public}",
+    "cmd": "INSERT",
+    "qual": null,
+    "with_check": "(user_id = auth.uid())"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "profiles",
+    "policyname": "profiles_read_own",
+    "permissive": "PERMISSIVE",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "profiles",
+    "policyname": "profiles_select_own",
+    "permissive": "PERMISSIVE",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "(user_id = auth.uid())",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "profiles",
+    "policyname": "profiles_select_self",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "profiles",
+    "policyname": "profiles_select_superadmin",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.user_id = auth.uid()) AND (p.structural_level = 4))))",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "profiles",
+    "policyname": "profiles_update_own",
+    "permissive": "PERMISSIVE",
+    "roles": "{public}",
+    "cmd": "UPDATE",
+    "qual": "(user_id = auth.uid())",
+    "with_check": "(user_id = auth.uid())"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "profiles",
+    "policyname": "profiles_update_self",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "UPDATE",
+    "qual": "(auth.uid() = user_id)",
+    "with_check": "(auth.uid() = user_id)"
+  },
+  {
+    "schemaname": "public",
+    "tablename": "profiles",
+    "policyname": "read own profile",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "(user_id = auth.uid())",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "profiles",
+    "policyname": "read profiles by permissions email",
+    "permissive": "PERMISSIVE",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "(EXISTS ( SELECT 1\n   FROM permissions p\n  WHERE (p.email = auth.email())))",
+    "with_check": null
+  },
+  {
+    "schemaname": "public",
+    "tablename": "profiles",
+    "policyname": "update own profile",
+    "permissive": "PERMISSIVE",
+    "roles": "{authenticated}",
+    "cmd": "UPDATE",
+    "qual": "(user_id = auth.uid())",
+    "with_check": null
+  }
+]
+SELECT
+  table_name,
+  grantee,
+  privilege_type
+FROM information_schema.role_table_grants
+WHERE table_schema = 'public'
+  AND table_name IN (
+    'profiles',
+    'menus',
+    'menu_logs',
+    'functional_roles'
+  )
+ORDER BY table_name, grantee;
+[
+  {
+    "table_name": "menu_logs",
+    "grantee": "anon",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "anon",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "anon",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "anon",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "anon",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "anon",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "anon",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "authenticated",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "authenticated",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "authenticated",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "authenticated",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "authenticated",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "authenticated",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "menu_logs",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "anon",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "anon",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "anon",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "anon",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "anon",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "anon",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "anon",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "authenticated",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "authenticated",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "authenticated",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "authenticated",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "authenticated",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "authenticated",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "menus",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "anon",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "anon",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "anon",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "anon",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "anon",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "anon",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "anon",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "authenticated",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "authenticated",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "authenticated",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "authenticated",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "authenticated",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "authenticated",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "authenticated",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "postgres",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "postgres",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "postgres",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "postgres",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "postgres",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "postgres",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "postgres",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "service_role",
+    "privilege_type": "UPDATE"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "service_role",
+    "privilege_type": "INSERT"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "service_role",
+    "privilege_type": "SELECT"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "service_role",
+    "privilege_type": "TRIGGER"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "service_role",
+    "privilege_type": "REFERENCES"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "service_role",
+    "privilege_type": "TRUNCATE"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "service_role",
+    "privilege_type": "DELETE"
+  },
+  {
+    "table_name": "profiles",
+    "grantee": "superadmin",
+    "privilege_type": "SELECT"
+  }
+]
+SELECT
+  auth.uid()        AS auth_uid,
+  auth.role()       AS auth_role,
+  current_user      AS db_user;
+[
+  {
+    "auth_uid": null,
+    "auth_role": null,
+    "db_user": "postgres"
+  }
+]
+SELECT
+  id,
+  user_id,
+  structural_level,
+  app_role
+FROM profiles
+ORDER BY created_at DESC
+LIMIT 5;
+[
+  {
+    "id": "88175888-8cb1-4b5f-bb44-25e3e508fd77",
+    "user_id": "88175888-8cb1-4b5f-bb44-25e3e508fd77",
+    "structural_level": 4,
+    "app_role": null
+  }
+]
+SELECT
+  structural_level,
+  app_role
+FROM profiles
+WHERE user_id = auth.uid();
+Success. No rows returned
+
+SELECT
+  id,
+  key,
+  name,
+  is_active,
+  superadmin_only,
+  required_structural_level
+FROM menus
+WHERE is_active = true
+ORDER BY order_index;
+[
+  {
+    "id": "ae29eed2-3fc4-4e66-bd7b-b85905d85025",
+    "key": "dashboard",
+    "name": "Dashboard",
+    "is_active": true,
+    "superadmin_only": true,
+    "required_structural_level": null
+  },
+  {
+    "id": "24c4da10-e6f3-4f6f-852b-bfe92a44785f",
+    "key": "keanggotaan",
+    "name": "Keanggotaan",
+    "is_active": true,
+    "superadmin_only": false,
+    "required_structural_level": null
+  },
+  {
+    "id": "571508c2-ac61-4d95-83a3-79ff39c1a56a",
+    "key": "settings",
+    "name": "Settings",
+    "is_active": true,
+    "superadmin_only": true,
+    "required_structural_level": null
+  },
+  {
+    "id": "9a4f1ff3-1e9f-4bdc-b1a1-148ff646860c",
+    "key": "audit",
+    "name": "Audit",
+    "is_active": true,
+    "superadmin_only": true,
+    "required_structural_level": null
+  }
+]
+SELECT
+  tablename,
+  policyname,
+  roles,
+  cmd,
+  qual
+FROM pg_policies
+WHERE schemaname = 'public'
+  AND cmd = 'SELECT';
+[
+  {
+    "tablename": "password_resets",
+    "policyname": "allow selects",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "true"
+  },
+  {
+    "tablename": "permissions",
+    "policyname": "superadmin can read all permissions",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "(auth.email() = 'karateinkaisby@gmail.com'::text)"
+  },
+  {
+    "tablename": "profiles",
+    "policyname": "profiles read own",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "(auth.uid() = user_id)"
+  },
+  {
+    "tablename": "menu_logs",
+    "policyname": "menu_logs_select_admin",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "(auth.role() = 'authenticated'::text)"
+  },
+  {
+    "tablename": "ranting",
+    "policyname": "ranting_select_authenticated",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "(aktif = true)"
+  },
+  {
+    "tablename": "permissions",
+    "policyname": "user can read own permission",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "(email = auth.email())"
+  },
+  {
+    "tablename": "profiles",
+    "policyname": "read own profile",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "(user_id = auth.uid())"
+  },
+  {
+    "tablename": "user_login_logs_legacy",
+    "policyname": "read_own_login_logs",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "(auth.uid() = user_id)"
+  },
+  {
+    "tablename": "wilayah",
+    "policyname": "anon can read wilayah",
+    "roles": "{anon}",
+    "cmd": "SELECT",
+    "qual": "true"
+  },
+  {
+    "tablename": "wilayah",
+    "policyname": "wilayah_read_all",
+    "roles": "{anon,authenticated}",
+    "cmd": "SELECT",
+    "qual": "true"
+  },
+  {
+    "tablename": "wilayah",
+    "policyname": "wilayah_select_public",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "true"
+  },
+  {
+    "tablename": "ranting",
+    "policyname": "ranting read all",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "true"
+  },
+  {
+    "tablename": "menu_roles",
+    "policyname": "menu_roles read",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "true"
+  },
+  {
+    "tablename": "profiles",
+    "policyname": "profiles_select_self",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "(auth.uid() = user_id)"
+  },
+  {
+    "tablename": "ranting",
+    "policyname": "Allow read ranting",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "true"
+  },
+  {
+    "tablename": "permissions",
+    "policyname": "superadmin read all permissions",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "(auth.email() = 'karateinkaisby@gmail.com'::text)"
+  },
+  {
+    "tablename": "profiles",
+    "policyname": "read profiles by permissions email",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "(EXISTS ( SELECT 1\n   FROM permissions p\n  WHERE (p.email = auth.email())))"
+  },
+  {
+    "tablename": "user_activity_logs",
+    "policyname": "admin can read logs",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "(auth.role() = 'authenticated'::text)"
+  },
+  {
+    "tablename": "profiles",
+    "policyname": "profiles_read_own",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "(auth.uid() = user_id)"
+  },
+  {
+    "tablename": "ranting",
+    "policyname": "read ranting for authenticated",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "true"
+  },
+  {
+    "tablename": "menu_logs",
+    "policyname": "menu_logs_select_authenticated",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "(auth.role() = 'authenticated'::text)"
+  },
+  {
+    "tablename": "menus",
+    "policyname": "public read menus",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "true"
+  },
+  {
+    "tablename": "user_audit_logs",
+    "policyname": "audit_read_admin",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "(EXISTS ( SELECT 1\n   FROM profiles\n  WHERE ((profiles.id = auth.uid()) AND (profiles.app_role = ANY (ARRAY['ADMIN'::text, 'SUPERADMIN'::text])))))"
+  },
+  {
+    "tablename": "ranting",
+    "policyname": "read ranting public",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "true"
+  },
+  {
+    "tablename": "events",
+    "policyname": "users can read own events",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "(user_id = auth.uid())"
+  },
+  {
+    "tablename": "permissions",
+    "policyname": "user read own permissions",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "(email = auth.email())"
+  },
+  {
+    "tablename": "profiles",
+    "policyname": "profiles_select_own",
+    "roles": "{public}",
+    "cmd": "SELECT",
+    "qual": "(user_id = auth.uid())"
+  },
+  {
+    "tablename": "profiles",
+    "policyname": "profiles_select_superadmin",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.user_id = auth.uid()) AND (p.structural_level = 4))))"
+  },
+  {
+    "tablename": "menus",
+    "policyname": "menus_select_final",
+    "roles": "{authenticated}",
+    "cmd": "SELECT",
+    "qual": "((EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.user_id = auth.uid()) AND (p.structural_level = 4)))) OR ((superadmin_only = false) AND (is_active = true)))"
+  }
+]

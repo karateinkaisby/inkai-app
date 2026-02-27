@@ -1,0 +1,68 @@
+"use client";
+
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
+
+import Sidebar from "./components/dashboard/Sidebar";
+import TopbarContainer from "./components/topbar-premium/TopbarContainer";
+import ProfileModal from "./components/topbar-premium/profile/ProfileModal";
+import SettingsModalProvider from "./components/topbar-premium/profile/settings/modal/SettingsModalProvider";
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const pathname = usePathname();
+
+  const hideSidebar =
+    pathname.startsWith("/dashboard/auth") ||
+    pathname.startsWith("/dashboard/print") ||
+    pathname.startsWith("/dashboard/fullscreen");
+
+  /* ======================================================
+   * AUTHORIZATION GATE (TANPA REDIRECT)
+   * ====================================================== */
+  useEffect(() => {
+    let active = true;
+
+    const runGate = async () => {
+      const res = await fetch("/api/me", { credentials: "include" });
+      if (!res.ok) return;
+      const json = await res.json();
+      const profile = json?.profile ?? null;
+
+      if (!active) return;
+
+      if (!profile) {
+        return;
+      }
+
+      if (!profile.email_allowed) {
+        return;
+      }
+
+      if (!profile.profile_completed) {
+        window.dispatchEvent(new Event("force-open-profile-modal"));
+      }
+    };
+
+    runGate();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  return (
+    <div className="flex h-screen bg-black text-white overflow-hidden">
+      {!hideSidebar && <Sidebar />}
+
+      <div className="flex flex-col flex-1 min-w-0">
+        <TopbarContainer />
+        <ProfileModal />
+        <SettingsModalProvider />
+        <main className="flex-1 overflow-auto p-6">{children}</main>
+      </div>
+    </div>
+  );
+}

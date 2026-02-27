@@ -1,0 +1,57 @@
+STRUKTUR DASHBOARD FINAL
+app/
+├─ dashboard/
+│  ├─ page.tsx                         # ROOT DASHBOARD (SHELL)
+│  │
+│  ├─ keanggotaan/
+│  │  └─ page.tsx                      # ROUTE WRAPPER
+│  ├─ siswa/
+│  │  └─ page.tsx
+│  ├─ user/
+│  │  └─ page.tsx
+│  ├─ absensi/
+│  │  └─ page.tsx
+│  ├─ jadwal/
+│  │  └─ page.tsx
+│  ├─ penilaian/
+│  │  └─ page.tsx
+│  ├─ keuangan/
+│  │  └─ page.tsx
+│  ├─ event/
+│  │  └─ page.tsx
+│  ├─ settings/
+│  │  └─ page.tsx
+│  │
+│  ├─ modules/
+│  │  ├─ dashboard/
+│  │  │  └─ DashboardHome.tsx
+│  │  ├─ keanggotaan/
+│  │  │  └─ KeanggotaanModule.tsx
+│  │  ├─ siswa/
+│  │  │  └─ SiswaModule.tsx
+│  │  ├─ user/
+│  │  │  └─ UserModule.tsx
+│  │  ├─ absensi/
+│  │  │  └─ AbsensiModule.tsx
+│  │  ├─ jadwal/
+│  │  │  └─ JadwalModule.tsx
+│  │  ├─ penilaian/
+│  │  │  └─ PenilaianModule.tsx
+│  │  ├─ keuangan/
+│  │  │  └─ KeuanganModule.tsx
+│  │  ├─ event/
+│  │  │  └─ EventModule.tsx
+│  │  └─ settings/
+│  │     └─ SettingsModule.tsx
+│  │
+│  ├─ components/
+│  ├─ contexts/
+│  └─ user/
+
+✅ PERILAKU AKHIR (SESUAI KEINGINAN ANDA)
+Kondisi User	Hasil
+Login + profile lengkap	Dashboard normal, modal tidak muncul
+Login + profile kosong	Dashboard tampil, ProfileModal otomatis terbuka & terkunci
+Klik ❌ saat belum lengkap	❌ Ditolak (oleh logic di ProfileModal)
+Profile sudah lengkap	Modal bisa ditutup
+Tidak login	Ditangani di layer auth (bukan di layout ini)

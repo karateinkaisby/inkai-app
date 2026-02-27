@@ -1,0 +1,4 @@
+{
+  "project": "inkai-app",
+  "description": "Konteks proyek dibaca dari CLAUDE.md di root. Digunakan bersama Cursor (.cursor/rules/inkai-app.mdc)."
+}

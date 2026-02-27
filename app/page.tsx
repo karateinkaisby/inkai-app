@@ -1,65 +1,94 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { useSearchParams, useRouter } from "next/navigation";
+
+import { supabaseBrowser as supabase } from "@/app/lib/supabaseBrowser";
+import CinematicIntro from "@/components/ui/CinematicIntro";
+import LoginModal from "@/app/auth/login/LoginModal";
+import JarvisLoader from "@/components/JarvisLoader";
 
 export default function Home() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const returnTo = searchParams.get("returnTo") || "/dashboard";
+
+  const [phase, setPhase] = useState<"intro" | "landing" | "auth" | "boot">(
+    "intro",
+  );
+  const loginButtonRef = useRef<HTMLButtonElement>(null);
+
+  const handleIntroFinish = () => {
+    setTimeout(() => setPhase("landing"), 600);
+  };
+
+  useEffect(() => {
+    if (phase === "landing") {
+      requestAnimationFrame(() => loginButtonRef.current?.focus());
+    }
+  }, [phase]);
+
+  // 🔐 AUTH LISTENER — SATU CLIENT
+  useEffect(() => {
+    const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === "SIGNED_IN" && session) {
+        setPhase("boot");
+        await new Promise((r) => setTimeout(r, 300));
+        router.replace(returnTo);
+        router.refresh();
+      }
+    });
+
+    return () => data.subscription.unsubscribe();
+  }, [router, returnTo]);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <main className="relative h-screen w-screen overflow-hidden bg-black text-white flex items-center justify-center">
+      {phase === "intro" && (
+        <motion.div>
+          <CinematicIntro onFinish={handleIntroFinish} />
+        </motion.div>
+      )}
+
+      {phase === "landing" && (
+        <motion.div className="text-center">
+          <img
+            src="/logo/inkai-logo.png"
+            alt="INKAI"
+            className="w-40 mx-auto mb-6"
+          />
+          <h1 className="text-5xl font-extrabold">INKAI</h1>
+
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setPhase("auth");
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+            <button
+              ref={loginButtonRef}
+              type="submit"
+              className="mt-10 px-12 py-3 font-bold bg-gradient-to-r from-yellow-300 to-red-500 rounded-xl
+                         focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            >
+              Login
+            </button>
+          </form>
+        </motion.div>
+      )}
+
+      {phase === "auth" && (
+        <motion.div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-xl">
+          <LoginModal onClose={() => setPhase("landing")} />
+        </motion.div>
+      )}
+
+      {phase === "boot" && (
+        <motion.div className="fixed inset-0 flex items-center justify-center bg-black/90">
+          <JarvisLoader mode="full" />
+        </motion.div>
+      )}
+    </main>
   );
 }

@@ -1,0 +1,29 @@
+# inkai-app — Supabase CLI config (dual mode: lokal + remote)
+# https://supabase.com/docs/guides/cli/config
+
+project_id = "inkai-app"
+
+# Remote project (isi setelah `supabase link --project-ref <ref>`)
+# [remotes.main]
+# project_id = "<PROJECT_REF_DARI_DASHBOARD>"
+
+[api]
+port = 54321
+schemas = ["public", "storage"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 15
+
+[studio]
+port = 54323
+
+[auth]
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:3000/*"]
+enable_signup = true
+
+[auth.email]
+enable_signup = true
+enable_confirmations = false
