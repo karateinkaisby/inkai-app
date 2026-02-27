@@ -2,12 +2,12 @@ Role hirarki yang benar (FINAL, bersih, dan tidak bocor):
 
 A. Hirarki Struktural (Organisasi Karate)
 Menjawab: “siapa kamu di organisasi”
-Disimpan di profiles.structural_role & profiles.structural_level
-1 = KOHAl
-2 = KETUA_RANTING
-3 = KETUA_CABANG
-4 = KETUA_PENGPROV
-5 = KETUA_PP
+Disimpan di user_structural_roles (multi jabatan) via structural_role_master
+Level 1: KOHAl
+Level 2: KETUA_RANTING, SEKRETARIS_RANTING, BENDAHARA_RANTING
+Level 3: KETUA_CABANG, SEKRETARIS_CABANG, BENDAHARA_CABANG
+Level 4: KETUA_PENGPROV, SEKRETARIS_PENGPROV, BENDAHARA_PENGPROV
+Level 5: KETUA_PP, SEKRETARIS_PP, BENDAHARA_PP
 
 ➡️ Berlaku ke:
 kewenangan wilayah
@@ -53,11 +53,11 @@ D. Aturan Pamungkas (dikunci)
 Ini hirarki yang benar dan siap dipakai jangka panjang.
 Struktur yang disepakati:
 Struktural (1–5) di profiles
-1 = KOHAl
-2 = KETUA_RANTING
-3 = KETUA_CABANG
-4 = KETUA_PENGPROV
-5 = KETUA_PP
+Level 1: KOHAl
+Level 2: KETUA_RANTING, SEKRETARIS_RANTING, BENDAHARA_RANTING
+Level 3: KETUA_CABANG, SEKRETARIS_CABANG, BENDAHARA_CABANG
+Level 4: KETUA_PENGPROV, SEKRETARIS_PENGPROV, BENDAHARA_PENGPROV
+Level 5: KETUA_PP, SEKRETARIS_PP, BENDAHARA_PP
 Sistem (ADMIN, SUPERADMIN) di app_role
 
 Fungsional di tabel kontekstual
