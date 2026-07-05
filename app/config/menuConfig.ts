@@ -9,6 +9,7 @@ import {
   Wallet,
   Settings,
   IdCard,
+  Smartphone,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -25,6 +26,7 @@ export type MenuKey =
   | "penilaian"
   | "keuangan"
   | "event"
+  | "mobile-web"
   | "settings";
 
 /* ===============================
@@ -121,6 +123,14 @@ const menuConfig: Readonly<MenuItem[]> = Object.freeze([
     scope: "event",
     icon: ScrollText,
     color: "text-purple-400 drop-shadow-[0_0_6px_rgba(192,132,252,0.6)]",
+    requiresRead: true,
+  },
+  {
+    key: "mobile-web",
+    name: "Konten Mobile",
+    scope: "mobile-web",
+    icon: Smartphone,
+    color: "text-sky-400 drop-shadow-[0_0_6px_rgba(56,189,248,0.6)]",
     requiresRead: true,
   },
   {
