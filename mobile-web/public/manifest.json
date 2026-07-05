@@ -1,0 +1,17 @@
+{
+  "name": "INKAI Mobile",
+  "short_name": "INKAI",
+  "description": "Portal Anggota INKAI",
+  "start_url": "/halaman/home",
+  "display": "standalone",
+  "background_color": "#0A0A0C",
+  "theme_color": "#0A0A0C",
+  "lang": "id",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
